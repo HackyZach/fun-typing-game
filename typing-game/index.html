@@ -3,13 +3,15 @@
 <html>
     <head>
         <script src="./js/index.js"></script>
+        <script src="./js/typing.js"></script>
+        <link href="./css/index.css" rel="stylesheet" type="text/css">
     </head>
     <body>
         <h1>Words API</h1>
         <button onclick="myFunction()">Click to display random word and definition.</button>
         <div class="random-word"></div>
         <div class="random-word-definition"></div>
-        <input id='user-input' type="text" size="50" onkeydown="updateCurrentInput(event)">
+        <input id='user-input' type="text" size="50" onkeyup="updateCurrentInput(event)">
         <div class="debug"></div>
         <div class="leaderboard">
             <button onclick="signup()" class="signupButton">
