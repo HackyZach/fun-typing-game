@@ -39,6 +39,8 @@ function addUser(){
         })
         .then(function() {
             console.log("Document successfully written!");
+            M.toast({html: 'You have submitted your score!'})
+
         })
         .catch(function(error) {
             console.error("Error writing document: ", error);
@@ -70,17 +72,17 @@ function addUser(){
                 // Create Table:
                 var board = document.getElementById('tabledata');
                 var tableBody = document.createElement('tbody');
-                var row = document.createElement("tr");
+                // var row = document.createElement("tr");
 
                 // Create Headers:
-                var headers = ['Score','Name','Time']
-                for (var i = 0; i <=2; i++){
-                    var cell = document.createElement("td");
-                    var cellText = document.createTextNode(headers[i]);
-                    cell.appendChild(cellText);
-                    row.appendChild(cell);                
-                }
-                tableBody.appendChild(row);
+                // var headers = ['Score','Name','Time']
+                // for (var i = 0; i <=2; i++){
+                //     var cell = document.createElement("td");
+                //     var cellText = document.createTextNode(headers[i]);
+                //     cell.appendChild(cellText);
+                //     row.appendChild(cell);                
+                // }
+                // tableBody.appendChild(row);
 
 
                 // var scores = [];
@@ -91,17 +93,19 @@ function addUser(){
                     var values = doc.data()
                     // console.log(values);
 
+                    // Name:
+                    var cell = document.createElement("td");
+                    var cellText = document.createTextNode(user.displayName);
+                    cell.appendChild(cellText);
+                    row.appendChild(cell);
+
                     // Score:
                     var cell = document.createElement("td");
                     var cellText = document.createTextNode(values['score']);
                     cell.appendChild(cellText);
                     row.appendChild(cell);
 
-                    // Name:
-                    var cell = document.createElement("td");
-                    var cellText = document.createTextNode(user.displayName);
-                    cell.appendChild(cellText);
-                    row.appendChild(cell);
+                    
 
                     // Date:
                     var cell = document.createElement("td");
