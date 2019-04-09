@@ -5,9 +5,14 @@ function myFunction() {
     document.getElementsByClassName("random-word-definition")[0].innerHTML = "Definition: Request Sent!";
     
     /*Sends Request*/
+    
+    // console.log(config);
+    // console.log(config['API_KEY']);
+    // console.log(firebaseConfig);
+
     const request = new XMLHttpRequest();
     request.open("GET", "https://wordsapiv1.p.rapidapi.com/words/?random=true")
-    request.setRequestHeader("X-RapidAPI-Key", config.API_KEY);
+    request.setRequestHeader("X-RapidAPI-Key", config['API_KEY']);
     request.setRequestHeader("Accept", "application/json")
     request.send();
 
