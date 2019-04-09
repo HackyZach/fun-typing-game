@@ -2,14 +2,15 @@
 <!DOCTYPE HTML>
 <html>
     <head>
-        <script src="./js/config.js"></script>
-        <script src="./js/index.js"></script>
+        <script src="./js/config.js" type="text/javascript"></script>
+        <script src="./js/index.js" type="text/javascript"></script>
     </head>
     <body>
         <h1>Words API</h1>
         <button onclick="myFunction()">Click to display random word and definition.</button>
         <div class="random-word"></div>
         <div class="random-word-definition"></div>
+        <input id='user-input' type="text" size="50" onkeydown="updateCurrentInput(event)">
         <div class="debug"></div>
     </body>
 </html>
