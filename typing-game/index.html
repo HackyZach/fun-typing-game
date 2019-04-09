@@ -2,8 +2,7 @@
 <!DOCTYPE HTML>
 <html>
     <head>
-        <script src="./js/config.js" type="text/javascript"></script>
-        <script src="./js/index.js" type="text/javascript"></script>
+        <script src="./js/index.js"></script>
     </head>
     <body>
         <h1>Words API</h1>
@@ -12,5 +11,23 @@
         <div class="random-word-definition"></div>
         <input id='user-input' type="text" size="50" onkeydown="updateCurrentInput(event)">
         <div class="debug"></div>
+        <div class="leaderboard">
+            <button onclick="signup()" class="signupButton">
+            </button>
+            <button onclick="addUser()">
+                Add User to DB.
+            </button>
+            <table id="tabledata"></table>
+
+        </div>
     </body>
+    <!-- Firebase: -->
+    <script src="https://www.gstatic.com/firebasejs/5.9.3/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.5.3/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.9.3/firebase-auth.js"></script>
+    <script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
+    <script src="https://www.gstatic.com/firebasejs/5.9.3/firebase-firestore.js"></script>
+    <script src="./js/config.js"></script>
+    <script src="./js/leaderboard.js"></script>
 </html>
