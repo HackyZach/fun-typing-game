@@ -1,5 +1,6 @@
 console.log('Reading typing.js');
 var currentRandomWord;
+var currentRandomWordLength;
 var currentInput = '';
 var currentCharIndex = 0;
 
@@ -25,7 +26,7 @@ function checkLetter (char) {
 
 // Changes the tile of the respective letter to a styling that indicates correctness
 function changeTileCorrect () {
-  // let tileList = document.getElementsByClassName('char-tile');
+  console.log('Executing changeTileCorrect');
   let tileList = document.getElementsByTagName('span');
   tileList[currentCharIndex].style.backgroundColor = 'lightgreen';
   console.log('Changed tile color');
@@ -34,7 +35,6 @@ function changeTileCorrect () {
 // Changes the tile of the respective letter to a styling that indicates incorrectness
 function changeTileWrong () {
   console.log('Executing changeTileWrong');
-  // let tileList = document.getElementsByClassName('char-tile');
   let tileList = document.getElementsByTagName('span');
   tileList[currentCharIndex].style.backgroundColor = 'lightpink';
 }
@@ -42,8 +42,8 @@ function changeTileWrong () {
 function checkWord () {
   console.log('Executing checkWord');
   if (currentInput === currentRandomWord) {
-    console.log('Before refreshing input tag');
     document.getElementById('user-input').value = '';
+    removeTilesForWord();
     myFunction();
     currentInput = '';
   }
@@ -51,11 +51,20 @@ function checkWord () {
 
 function makeTilesForWord () {
   console.log('Executing makeTilesForWord()');
-  console.log('currentrandomWord=' + currentRandomWord + 'in makeTilesForWord()');
   for (let i = 0; i < currentRandomWord.length; i++) {
     let spanForChar = document.createElement('span');
     spanForChar.innerText = currentRandomWord[i];
     spanForChar.class = i + ' char-tile';
     document.body.appendChild(spanForChar);
+  }
+}
+
+function removeTilesForWord () {
+  console.log('removeTilesForWord()');
+  let tileList = document.getElementsByTagName('span');
+  for (let i = 0; i < currentRandomWord.length; i++) {
+    console.log('tileList length=' + tileList.length);
+    console.log('Removing' + tileList[i]);
+    document.body.removeChild(tileList[0]);
   }
 }
