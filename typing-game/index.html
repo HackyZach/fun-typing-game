@@ -16,6 +16,9 @@
                 <button onclick="myFunction()">Click to display random word and definition.</button>
                 <div class="random-word"></div>
                 <div class="random-word-definition"></div>
+                <!-- <div id='inputView'> -->
+                    <span id="inputView"></span>
+                <!-- </div> -->
                 <input id='user-input' type="text" size="50" onkeyup="updateCurrentInput(event)">
                 <div class="debug"></div>
             </div>
@@ -28,8 +31,12 @@
             
             <div class="leaderboard row">
                 <h2>Leaderboard</h2>
-                <button onclick="signup()" class="signupButton"></button>
-                <button onclick="addUser()">Add User to DB.</button>
+                <a class="signupButton waves-effect waves-light btn-large" onclick="signup()">Sign Up</a>
+
+                <!-- <button ></button> -->
+                <a class="waves-effect waves-light btn-large" onclick="addUser()">Add User to DB</a>
+
+                <!-- <button onclick="addUser()">Add User to DB.</button> -->
                 <table id="tabledata" class="responsive-table highlight centered">
                     <thead>
                         <tr>

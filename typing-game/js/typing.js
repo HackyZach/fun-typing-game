@@ -26,8 +26,8 @@ function checkLetter (char) {
 // Changes the tile of the respective letter to a styling that indicates correctness
 function changeTileCorrect () {
   // let tileList = document.getElementsByClassName('char-tile');
-  let tileList = document.getElementsByTagName('span');
-  tileList[currentCharIndex].style.backgroundColor = 'lightgreen';
+  let tileList = document.getElementById('inputView');
+  tileList.children[currentCharIndex].style.backgroundColor = 'lightgreen';
   console.log('Changed tile color');
 }
 
@@ -35,8 +35,8 @@ function changeTileCorrect () {
 function changeTileWrong () {
   console.log('Executing changeTileWrong');
   // let tileList = document.getElementsByClassName('char-tile');
-  let tileList = document.getElementsByTagName('span');
-  tileList[currentCharIndex].style.backgroundColor = 'lightpink';
+  let tileList = document.getElementById('inputView');
+  tileList.children[currentCharIndex].style.backgroundColor = 'lightpink';
 }
 
 function checkWord () {
@@ -44,6 +44,12 @@ function checkWord () {
   if (currentInput === currentRandomWord) {
     console.log('Before refreshing input tag');
     document.getElementById('user-input').value = '';
+    inputView = document.getElementById('inputView');
+    // inputView.innerText = '';
+    while (inputView.firstChild) {
+      inputView.removeChild(inputView.firstChild);
+    }
+    // inputView.class = '';
     myFunction();
     currentInput = '';
   }
@@ -56,6 +62,6 @@ function makeTilesForWord () {
     let spanForChar = document.createElement('span');
     spanForChar.innerText = currentRandomWord[i];
     spanForChar.class = i + ' char-tile';
-    document.body.appendChild(spanForChar);
+    document.getElementById('inputView').appendChild(spanForChar);
   }
 }
