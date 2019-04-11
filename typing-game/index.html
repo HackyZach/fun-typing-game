@@ -11,9 +11,9 @@
     </head>
     <body>
         <div class="container">
-            <div class="row typing">
-                <h1>Words API</h1>
-                <button onclick="myFunction()">Click to display random word and definition.</button>
+            <div class="row">
+                <h1 >Words API</h1>
+                <button onclick="myFunction()" class="waves-effect waves-light btn-small">Click to display random word and definition.</button>
                 <div class="random-word"></div>
                 <div class="random-word-definition"></div>
                 <input id='user-input' type="text" size="50" onkeyup="updateCurrentInput(event)">
@@ -27,9 +27,9 @@
             </div>
             
             <div class="leaderboard row">
-                <h2>Leaderboard</h2>
-                <button onclick="signup()" class="signupButton"></button>
-                <button onclick="addUser()">Add User to DB.</button>
+                <h2 class="title">Leaderboard</h2>
+                <button onclick="signup()" class="signupButton waves-effect waves-light btn-small"></button>
+                <button onclick="addUser()" class="waves-effect waves-light btn-small">Add User to DB.</button>
                 <table id="tabledata" class="responsive-table highlight centered">
                     <thead>
                         <tr>
