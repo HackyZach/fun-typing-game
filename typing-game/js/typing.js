@@ -1,6 +1,5 @@
 console.log('Reading typing.js');
 var currentRandomWord;
-var currentRandomWordLength;
 var currentInput = '';
 var currentCharIndex = 0;
 
@@ -55,12 +54,14 @@ function makeTilesForWord () {
     let spanForChar = document.createElement('span');
     spanForChar.innerText = currentRandomWord[i];
     spanForChar.class = i + ' char-tile';
-    document.body.appendChild(spanForChar);
+    var typingContainer = document.getElementsByClassName('typing');
+    typingContainer[0].appendChild(spanForChar);
   }
 }
 
 function removeTilesForWord () {
   console.log('removeTilesForWord()');
+  // Need to properly 'target' correct child on :69
   let tileList = document.getElementsByTagName('span');
   for (let i = 0; i < currentRandomWord.length; i++) {
     console.log('tileList length=' + tileList.length);
