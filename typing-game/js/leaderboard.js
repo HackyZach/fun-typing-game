@@ -95,7 +95,7 @@ function addUser(){
 
                     // Name:
                     var cell = document.createElement("td");
-                    var cellText = document.createTextNode(user.displayName);
+                    var cellText = document.createTextNode(values['name]);
                     cell.appendChild(cellText);
                     row.appendChild(cell);
 
