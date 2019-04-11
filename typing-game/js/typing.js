@@ -43,8 +43,10 @@ function checkWord () {
   if (currentInput === currentRandomWord) {
     document.getElementById('user-input').value = '';
     removeTilesForWord();
-    myFunction();
     currentInput = '';
+    currentCharIndex = 0;
+    myFunction();
+    // currentInput = '';
   }
 }
 
@@ -62,10 +64,16 @@ function makeTilesForWord () {
 function removeTilesForWord () {
   console.log('removeTilesForWord()');
   // Need to properly 'target' correct child on :69
-  let tileList = document.getElementsByTagName('span');
-  for (let i = 0; i < currentRandomWord.length; i++) {
-    console.log('tileList length=' + tileList.length);
-    console.log('Removing' + tileList[i]);
-    document.body.removeChild(tileList[0]);
+  var wordlist = document.getElementById('typing');
+  console.log(wordlist.children);
+  while (wordlist.firstChild) {
+    wordlist.removeChild(wordlist.firstChild);
   }
+  // let tileList = document.getElementsByTagName('span');
+  // for (let i = 0; i < currentRandomWord.length; i++) {
+  //   console.log('tileList length=' + tileList.length);
+  //   console.log('Removing' + tileList[i]);
+  //   document.body.removeChild(tileList[0]);
+  // }
+
 }
