@@ -1,5 +1,5 @@
-console.log('Reading index.js');
 'use strict';
+console.log('Reading index.js');
 
 var word;
 
@@ -41,7 +41,6 @@ function myFunction () {
         document.getElementsByClassName('random-word-definition')[0].innerHTML = 'Definition: not included in response.';
       }
       currentRandomWord = word;
-      console.log('Assigned currentRandomWord');
       makeTilesForWord();
     }
     console.log('End of onreadystatechange');
