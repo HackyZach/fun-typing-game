@@ -30,7 +30,7 @@ function addUser(){
     var user = firebase.auth().currentUser;
     if (user) {
     // User is signed in.
-        var score = Math.floor(Math.random() * 100) + 1; // returns a random integer from 1 to 100
+        var score = Math.floor(Math.random() * 150) + 1; // returns a random integer from 1 to 100
         var db = firebase.firestore();
         db.collection("leaderboard").doc(user.uid).set({
             score: parseInt(score),
@@ -95,7 +95,7 @@ function addUser(){
 
                     // Name:
                     var cell = document.createElement("td");
-                    var cellText = document.createTextNode(user.displayName);
+                    var cellText = document.createTextNode(values['name']);
                     cell.appendChild(cellText);
                     row.appendChild(cell);
 

@@ -4,6 +4,12 @@ console.log('Reading index.js');
 var word;
 
 function myFunction () {
+  
+  inputView = document.getElementById('inputView');
+  while (inputView.firstChild) {
+    inputView.removeChild(inputView.firstChild);
+  }
+
   document.getElementsByClassName('random-word')[0].innerHTML = 'Word: Request Sent!';
   document.getElementsByClassName('random-word-definition')[0].innerHTML = 'Definition: Request Sent!';
 
