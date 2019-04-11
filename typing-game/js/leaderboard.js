@@ -55,6 +55,57 @@ function addUser(){
 (function() {
     // your page initialization code here
     // the DOM will be available here
+    // Display Leaderboard:
+    // Get a reference to the database service
+    var db = firebase.firestore();
+    var docRef = db.collection("leaderboard");
+
+    db.collection("leaderboard").orderBy('score','desc').get().then(function(querySnapshot) {
+        // Create Table:
+        var board = document.getElementById('tabledata');
+        var tableBody = document.createElement('tbody');
+        // var row = document.createElement("tr");
+
+        // Create Headers:
+        // var headers = ['Score','Name','Time']
+        // for (var i = 0; i <=2; i++){
+        //     var cell = document.createElement("td");
+        //     var cellText = document.createTextNode(headers[i]);
+        //     cell.appendChild(cellText);
+        //     row.appendChild(cell);                
+        // }
+        // tableBody.appendChild(row);
+
+        // var scores = [];
+        // Iterate Through all Scores:
+        querySnapshot.forEach(function(doc) {
+            var row = document.createElement("tr");
+            var values = doc.data()
+            // console.log(values);
+
+            // Name:
+            var cell = document.createElement("td");
+            var cellText = document.createTextNode(values['name']);
+            cell.appendChild(cellText);
+            row.appendChild(cell);
+
+            // Score:
+            var cell = document.createElement("td");
+            var cellText = document.createTextNode(values['score']);
+            cell.appendChild(cellText);
+            row.appendChild(cell);
+
+            // Date:
+            var cell = document.createElement("td");
+            var date = new Date(values['date']['seconds'] * 1000).toDateString();
+            var cellText = document.createTextNode(date);
+            cell.appendChild(cellText);
+            row.appendChild(cell);
+
+            tableBody.appendChild(row);
+        });
+        board.appendChild(tableBody);
+    });
     firebase.auth().onAuthStateChanged(function(user) {
         if (user) {
             console.log(user.displayName);
@@ -63,68 +114,9 @@ function addUser(){
             document.getElementsByClassName('signupButton')[0].innerText = "Signed in!";
             document.getElementsByClassName('signupButton')[0].style.display = "none";
 
-            // Display Leaderboard:
-            // Get a reference to the database service
-            var db = firebase.firestore();
-            var docRef = db.collection("leaderboard");
-
-            db.collection("leaderboard").orderBy('score','desc').get().then(function(querySnapshot) {
-                // Create Table:
-                var board = document.getElementById('tabledata');
-                var tableBody = document.createElement('tbody');
-                // var row = document.createElement("tr");
-
-                // Create Headers:
-                // var headers = ['Score','Name','Time']
-                // for (var i = 0; i <=2; i++){
-                //     var cell = document.createElement("td");
-                //     var cellText = document.createTextNode(headers[i]);
-                //     cell.appendChild(cellText);
-                //     row.appendChild(cell);                
-                // }
-                // tableBody.appendChild(row);
-
-
-                // var scores = [];
-                // Iterate Through all Scores:
-                querySnapshot.forEach(function(doc) {
-                    var row = document.createElement("tr");
-
-                    var values = doc.data()
-                    // console.log(values);
-
-                    // Name:
-                    var cell = document.createElement("td");
-                    var cellText = document.createTextNode(values['name']);
-                    cell.appendChild(cellText);
-                    row.appendChild(cell);
-
-                    // Score:
-                    var cell = document.createElement("td");
-                    var cellText = document.createTextNode(values['score']);
-                    cell.appendChild(cellText);
-                    row.appendChild(cell);
-
-                    
-
-                    // Date:
-                    var cell = document.createElement("td");
-                    var date = new Date(values['date']['seconds'] * 1000).toDateString();
-                    // console.log(date);
-                    var cellText = document.createTextNode(date);
-                    cell.appendChild(cellText);
-                    row.appendChild(cell);
-
-                    tableBody.appendChild(row);
-                    // scores.push(doc.data())
-                });
-                board.appendChild(tableBody);
-                // console.log(scores);
-            });
-
         } else {
             // User is signed out.
-            document.getElementsByClassName('signupButton')[0].innerText = "Not Signed in!"
+            document.getElementsByClassName('signupButton')[0].innerText = "Sign in!"
         }
     });
 
