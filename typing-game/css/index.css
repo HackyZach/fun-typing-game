@@ -15,18 +15,33 @@ body {
 
 .title {
     text-align: center;
+    color: whitesmoke;
+    padding-top: 0.5em;
+}
+
+.leaderboard {
+  background-color: #65a7a2;
+  padding-bottom: 2em;
+
+}
+
+.leadertable {
+}
+
+.leaderButtons {
+  padding-bottom: 1.5em;
 }
 
 .fa {
-  padding-top: S20px;
-  width: 50px;
+  /* padding-top: S20px;
+  width: 50px; */
 }
 
 .fa:hover {
   opacity: 0.7;
 }
 
-.fa-twitter-square {
-  background: white;
-  color: #55ACEE;
+.fa-twitter-square , .fa-facebook-square{
+  /* background: white; */
+  color: whitesmoke;
 } 

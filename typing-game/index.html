@@ -24,7 +24,7 @@
 
             </div>
 
-            <div class="row ">
+            <div class="row">
                 <div id="phaser">
 
                 </div>
@@ -32,18 +32,27 @@
             
             <div class="leaderboard row">
                 <h2 class="title">Leaderboard</h2>
-                <button onclick="signup()" class="signupButton waves-effect waves-light btn-small"></button>
-                <button onclick="addUser()" class="waves-effect waves-light btn-small">Add User to DB.</button>
-                <i class="fab fa-twitter-square fa-3x"></i>
-                <table id="tabledata" class="responsive-table highlight centered">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Score</th>
-                            <th>Date</th>
-                        </tr>
-                    </thead>
-                </table>
+                <div class="buttonRow">
+                    <div class="center leaderButtons">
+                        <button onclick="signup()" class="signupButton waves-effect waves-light btn-small"></button>
+                        <button onclick="addUser()" class="waves-effect waves-light btn-small">Add User to DB.</button>
+                    </div>
+                    <div class="center">
+                            <i class="fab fa-facebook-square fa-3x"></i>
+                        <i class="fab fa-twitter-square fa-3x"></i>
+                    </div>
+                </div>
+                <div class="col s10 offset-s1">
+                    <table id="tabledata" class="responsive-table highlight centered leadertable">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Score</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                        </table>
+                </div>  
             </div>
         </div>
     </body>
