@@ -20,41 +20,34 @@ class startScene extends Phaser.Scene {
         this.load.setBaseURL('http://localhost:8000')
         // Background:
         this.load.image('sky','assets/sky.png')
-        // Hearts:
-        this.load.image('fullHeart','assets/images/HUD/hud_heartFULL.png');
-        this.load.image('halfHeart','assets/images/HUD/hud_heartHalf.png');
-        this.load.image('emptyHeart','assets/images/HUD/hud_heartEmpty.png');
-        // Sprite:
+
+        // Character:
         this.load.image('character','assets/images/Player/p3_front.png')
-        // Platforms:
 
         // Music:
         this.load.audio('seinfeld','assets/sound/Seinfeld.mp3');
-        // this.load.audio('robot','assets/sound/Robot_Boogie.mp3');
     }
 
     create ()
     {
         this.add.image(400, 300, 'sky');
-        this.add.image(50,50,'fullHeart');
-        this.add.image(100,50,'fullHeart');
-        this.add.image(150,50,'fullHeart');
-        this.add.image(400,550,'character');
+        let char = this.add.image(400,550,'character');
 
-        this.add.text(550,25, 'Score: ', {fontFamily: '"Roboto Condensed', fontSize: '32px'});
-        this.add.text(650,25,'0', {fontFamily: '"Roboto Condensed', fontSize: '32px'});
-        
+        // this.add.text(550,25, 'Score: ', {fontFamily: '"Roboto Condensed', fontSize: '32px'});
+        // this.add.text(650,25,'0', {fontFamily: '"Roboto Condensed', fontSize: '32px'});
+        let music = this.sound.add('seinfeld');
+        music.play();
+
         let titleText = this.add.text(200, 200, 'Typing Jumper', { fontFamily: '"Roboto Condensed"' , fontSize: '64px'});
-        let startButton = this.add.text(300,300,"TODO: BUTTON", { fontFamily: '"Roboto Condensed"' , fontSize: '32px'}).setInteractive();
+        let startButton = this.add.text(300,300,"Press Start!", { fontFamily: '"Roboto Condensed"' , fontSize: '32px'}).setInteractive();
         startButton.on('pointerdown',(pointer) => {
             console.log(pointer);
             this.scene.add('game', gameScene, true, { x: 400, y: 300 });
             titleText.setVisible(false);
             startButton.setVisible(false);
+            char.setVisible(false);
+            music.stop();
         });
-
-        let music = this.sound.play('seinfeld');
-        // music = this.sound.play('robot');
 
         // Sample Code:
         // var particles = this.add.particles('red');
@@ -73,17 +66,51 @@ class startScene extends Phaser.Scene {
 }
 
 class gameScene extends Phaser.Scene {
-    // constructor(){
-    //     super({key:'game'});
-    // }
     preload(){
+        // Hearts:
+        this.load.image('fullHeart','assets/images/HUD/hud_heartFULL.png');
+        this.load.image('halfHeart','assets/images/HUD/hud_heartHalf.png');
+        this.load.image('emptyHeart','assets/images/HUD/hud_heartEmpty.png');
+        this.load.audio('robot','assets/sound/Robot_Boogie.mp3');
 
+        // Platforms:
+        this.load.image('platformLeft','assets/images/Tiles/stoneHalfLeft.png');
+        this.load.image('platformCenter','assets/images/Tiles/stoneHalfMid.png');
+        this.load.image('platformRight','assets/images/Tiles/stoneHalfRight.png');
 
+        // Sprite:
+        this.load.image('character','assets/images/Player/p3_front.png');
+        this.load.image('charJump','assets/images/Player/p3_jump.png');
+        this.load.image('charHurt','assets/images/Player/p3_hurt.png');
     }
+
     create(){
-        let score = 0
+        // Music:
+        let music = this.sound.play('robot');
+
+        // Character:
+        this.anims.create({
+            key: 'jump',
+            frames: [
+                { key: 'character' },
+                { key: 'charJump' },
+            ],
+            frameRate: 10,
+            repeat: 1
+        });
+    
+        let character = this.add.sprite(400,550, 'character');
+        // character.play('jump');
+
+        // Health:
+        this.add.image(50,50,'fullHeart');
+        this.add.image(100,50,'fullHeart');
+        this.add.image(150,50,'fullHeart');
         let health = 3
-        this.add.text(250,250, 'Score: ', {fontFamily: '"Roboto Condensed', fontSize: '32px'});
+
+        // Score:
+        this.add.text(550,25, 'Score: ', {fontFamily: '"Roboto Condensed', fontSize: '32px'});
+        let score = this.add.text(650,25,'0', {fontFamily: '"Roboto Condensed', fontSize: '32px'});
     }
 
 }
