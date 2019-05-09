@@ -18,6 +18,7 @@ class startScene extends Phaser.Scene {
         // this.load.image('red', 'assets/particles/red.png');
 
         this.load.setBaseURL('http://localhost:8000')
+        
         // Background:
         this.load.image('sky','assets/sky.png')
 
@@ -71,6 +72,8 @@ class gameScene extends Phaser.Scene {
         this.load.image('fullHeart','assets/images/HUD/hud_heartFULL.png');
         this.load.image('halfHeart','assets/images/HUD/hud_heartHalf.png');
         this.load.image('emptyHeart','assets/images/HUD/hud_heartEmpty.png');
+
+        // Music:
         this.load.audio('robot','assets/sound/Robot_Boogie.mp3');
 
         // Platforms:
@@ -95,27 +98,68 @@ class gameScene extends Phaser.Scene {
                 { key: 'character' },
                 { key: 'charJump' },
             ],
-            frameRate: 10,
-            repeat: 1
+            duration: 5000,
+            yoyo: true,
+            // frameRate: ,
+            // repeat: 
         });
-    
         let character = this.add.sprite(400,550, 'character');
-        // character.play('jump');
+        character.play('jump');
+
+        // Create Platform:
+        // let platformLeft = this.add.image(350,400,'platformLeft');
+        // let platformCenter = this.add.image(400,400,'platformCenter');
+        // let platformRight = this.add.image(450,400,'platformRight');
+        // https://rexrainbow.github.io/phaser3-rex-notes/docs/site/group/#group-actions
+        let platformOne = this.add.group(
+            {   
+                key:'platformOne',
+                setXY:
+                {
+                    x: 340,
+                    y: 383,
+                }
+            }
+        );
+        platformOne.create(350,400,'platformLeft');
+        platformOne.create(400,400,'platformCenter');
+        platformOne.create(450,400,'platformRight');
+        // platformOne.addMultiple([platformLeft,platformCenter,platformRight]);
+        console.log(platformOne);
+        console.log(platformOne.getLength());
 
         // Health:
+        // TODO: Make these into sprites..?
         this.add.image(50,50,'fullHeart');
         this.add.image(100,50,'fullHeart');
         this.add.image(150,50,'fullHeart');
         let health = 3
 
         // Score:
+        // Updating Score: https://phaser.io/tutorials/making-your-first-phaser-3-game/part9
         this.add.text(550,25, 'Score: ', {fontFamily: '"Roboto Condensed', fontSize: '32px'});
         let score = this.add.text(650,25,'0', {fontFamily: '"Roboto Condensed', fontSize: '32px'});
     }
 
+    update(){
+        // console.log('Update Called!');
+    }
+
+    // This will update the score based.
+    updateScore(){
+
+    }
+
+    // This will move the platform down, and loop it around. Make it appear like the sprite is moving.
+    nextWord(){
+
+    }   
 }
 
 class gameOverScene extends Phaser.Scene {
+    constructor() {
+        super({key:'over'});
+    }
 }
 
 let phaserconfig = {
@@ -127,7 +171,7 @@ let phaserconfig = {
             debug: true
         }
     },
-    scene: [ startScene, gameScene],
+    scene: [ startScene, gameScene, gameOverScene],
     scale: {
         parent: 'phaser',
         mode: Phaser.Scale.CENTER_BOTH,
