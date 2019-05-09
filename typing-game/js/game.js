@@ -4,6 +4,14 @@
 // Add Scene from Another Scene:
 // https://labs.phaser.io/edit.html?src=src\scenes\add%20scene%20from%20another%20scene.js
 
+
+
+    // console.log(dictionary[Math.floor(dictionary.length * Math.random())].word);
+let getRandomWord = () => {
+    randomIndex = Math.floor(dictionary.length * Math.random());
+    return dictionary[randomIndex].word;
+}
+
 class startScene extends Phaser.Scene {
     constructor() {
         super({key:'start',active: true});
@@ -17,7 +25,7 @@ class startScene extends Phaser.Scene {
         // this.load.image('logo', 'assets/sprites/phaser3-logo.png');
         // this.load.image('red', 'assets/particles/red.png');
 
-        this.load.setBaseURL('http://localhost:8000')
+        // this.load.setBaseURL('http://localhost:8000')
         // Background:
         this.load.image('sky','assets/sky.png')
 
@@ -108,9 +116,17 @@ class gameScene extends Phaser.Scene {
         this.add.image(150,50,'fullHeart');
         let health = 3
 
+        let style = {
+            fontFamily: '"Roboto Condensed', 
+            fontSize: '32px'
+        }
+
         // Score:
-        this.add.text(550,25, 'Score: ', {fontFamily: '"Roboto Condensed', fontSize: '32px'});
-        let score = this.add.text(650,25,'0', {fontFamily: '"Roboto Condensed', fontSize: '32px'});
+        this.add.text(550,25, 'Score: ', style);
+        let score = this.add.text(650,25,'0', style);
+        
+        // Words:
+        let text = this.add.text(0, 0, 'yowzer', style);
     }
 
 }
