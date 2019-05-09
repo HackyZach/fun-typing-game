@@ -117,7 +117,7 @@ class gameScene extends Phaser.Scene {
         let health = 3
 
         let style = {
-            fontFamily: '"Roboto Condensed', 
+            fontFamily: 'Roboto Condensed', 
             fontSize: '32px'
         }
 
@@ -126,7 +126,15 @@ class gameScene extends Phaser.Scene {
         let score = this.add.text(650,25,'0', style);
         
         // Words:
-        let text = this.add.text(0, 0, 'yowzer', style);
+        let wordStyle = {
+            fontFamily: 'Roboto Condensed', 
+            fontSize: '32px',
+            color: '#ffffff',
+            backgroundColor: '#4858AE'
+        }
+
+        let text = this.add.text(400, 300, getRandomWord(), style).padding(5);
+
     }
 
 }
