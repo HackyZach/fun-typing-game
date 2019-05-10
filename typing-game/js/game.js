@@ -151,7 +151,9 @@ class gameScene extends Phaser.Scene {
         // Score:
         // Updating Score: https://phaser.io/tutorials/making-your-first-phaser-3-game/part9
         this.add.text(550,25, 'Score: ', style);
-        let score = this.add.text(650,25,'0', style);
+
+        let totalPoints = 0;
+        let score = this.add.text(650, 25, totalPoints.toString(), style);
         
         // Words:
         let wordStyle = {
@@ -161,9 +163,29 @@ class gameScene extends Phaser.Scene {
             backgroundColor: '#4858AE'
         }
 
+        // Display Word
         let randomWord = getRandomWord();
         let position = 400 - randomWord.length * 7;
         let text = this.add.text(position, 300, randomWord, style);
+        
+        // Keyboard combo input.
+        let kb = this.input.keyboard;
+        kb.createCombo(randomWord);
+
+        this.input.keyboard.on('keycombomatch', function (event) {
+            console.log("Correct Input: " + randomWord);
+            // Replace Word
+            randomWord = getRandomWord();
+            text.setText(randomWord);
+            position = 400 - randomWord.length * 7;
+            text.setX(position);
+            kb.createCombo(randomWord);
+
+            // Update Score
+            totalPoints += 100;
+            score.setText(totalPoints.toString());
+        });
+        
     }
 
     update(){
