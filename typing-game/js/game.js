@@ -166,11 +166,12 @@ class gameScene extends Phaser.Scene {
         let position = 400 - randomWord.length * 7;
         let text = this.add.text(position, 300, randomWord, style);
         
-        
         // Keyboard combo input.
-        let combo = this.input.keyboard.createCombo(randomWord);
+        let kb = this.input.keyboard;
+        kb.createCombo(randomWord);
+        // let combo = this.input.keyboard.createCombo(randomWord);
+        // combo.resetOnMatch = true;
 
-        console.log(combo);
         this.input.keyboard.on('keycombomatch', function (event) {
             console.log("Correct Input: " + randomWord);
             randomWord = getRandomWord();
@@ -178,8 +179,22 @@ class gameScene extends Phaser.Scene {
             position = 400 - randomWord.length * 7;
             text.setX(position);
 
-            combo = randomWord;
+            kb.createCombo(randomWord);
         });
+        
+
+
+        // combo.destroy();
+        // let combo2 = this.input.keyboard.createCombo(randomWord);
+        // console.log(combo2);
+        // this.input.keyboard.on('keycombomatch', function (event) {
+        //     console.log("Correct Input: " + randomWord);
+        //     randomWord = getRandomWord();
+        //     text.setText(randomWord);
+        //     position = 400 - randomWord.length * 7;
+        //     text.setX(position);
+            
+        // });
     }
 
     update(){
