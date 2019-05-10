@@ -161,8 +161,9 @@ class gameScene extends Phaser.Scene {
             backgroundColor: '#4858AE'
         }
 
-        let text = this.add.text(400, 300, getRandomWord(), style).padding(5);
-
+        let randomWord = getRandomWord();
+        let position = 400 - randomWord.length * 7;
+        let text = this.add.text(position, 300, randomWord, style);
     }
 
     update(){
