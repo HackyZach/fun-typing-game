@@ -161,9 +161,25 @@ class gameScene extends Phaser.Scene {
             backgroundColor: '#4858AE'
         }
 
+        // Display Word
         let randomWord = getRandomWord();
         let position = 400 - randomWord.length * 7;
         let text = this.add.text(position, 300, randomWord, style);
+        
+        
+        // Keyboard combo input.
+        let combo = this.input.keyboard.createCombo(randomWord);
+
+        console.log(combo);
+        this.input.keyboard.on('keycombomatch', function (event) {
+            console.log("Correct Input: " + randomWord);
+            randomWord = getRandomWord();
+            text.setText(randomWord);
+            position = 400 - randomWord.length * 7;
+            text.setX(position);
+
+            combo = randomWord;
+        });
     }
 
     update(){
