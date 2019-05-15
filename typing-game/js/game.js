@@ -20,14 +20,6 @@ class startScene extends Phaser.Scene {
   }
 
   preload () {
-    // Sample Code:
-    // this.load.setBaseURL('http://labs.phaser.io');
-    // this.load.image('sky', 'assets/skies/space3.png');
-    // this.load.image('logo', 'assets/sprites/phaser3-logo.png');
-    // this.load.image('red', 'assets/particles/red.png');
-
-    // this.load.setBaseURL('http://localhost:8000')
-
     // Background:
     this.load.image('sky', 'assets/sky.png');
 
@@ -99,6 +91,14 @@ class gameScene extends Phaser.Scene {
       ],
       duration: 100
     });
+    this.anims.create({
+      key: 'hurt',
+      frames: [ 
+        { key: 'charHurt' },
+        { key: 'character' }
+      ],
+      duration: 2000
+    });
     character = this.add.sprite(400, 550, 'character');
     character.depth = 1; // brings sprite to front of all objects
 
@@ -113,11 +113,11 @@ class gameScene extends Phaser.Scene {
     platformThreeRight = this.add.image(450, -190, 'platformRight');
 
     // Health:
-    // TODO: Make these into sprites..?
-    var testHeart = this.add.image(50, 50, 'fullHeart');
-    this.add.image(100, 50, 'fullHeart');
-    this.add.image(150, 50, 'fullHeart');
-    let health = 3;
+    var heart1 = this.add.image(50, 50, 'fullHeart');
+    var heart2 = this.add.image(100, 50, 'fullHeart');
+    var heart3 = this.add.image(150, 50, 'fullHeart');
+    var hearts =  [ heart1, heart2, heart3 ];
+    var health = hearts.length - 1;
 
     var style = {
       fontFamily: 'Roboto Condensed',
@@ -164,17 +164,19 @@ class gameScene extends Phaser.Scene {
             currentInput += currentInputChar;
             currentCharIndex++;
           } else { // user typed wrong letter, so reset word
+            character.play('hurt');
             currentInput = '';
             currentCharIndex = 0;
             randomWord = getRandomWord();
             text.setText(randomWord);
             position = 400 - randomWord.length * 7;
             text.setX(position);
-            testHeart.setVisible(false);
+            if (health >= 0) { hearts[health--].setVisible(false); }
           }
         }
       }
 
+      // Matched word, get new word
       if (currentInput === randomWord) {
         jumpingAnimation = true;
         // removeTilesForWord();
@@ -193,27 +195,9 @@ class gameScene extends Phaser.Scene {
       console.log('currentInput=' + currentInput);
       console.log('currentCharIndex=' + currentCharIndex);
     });
-    // When the user correctly types the word
-    // this.input.keyboard.on('keycombomatch', function (event) {
-    //   console.log('Correct Input: ' + randomWord);
-    //   // Char animation and movement
-    //   jumpingAnimation = true;
-    //   // Replace Word
-    //   randomWord = getRandomWord();
-    //   text.setText(randomWord);
-    //   position = 400 - randomWord.length * 7;
-    //   text.setX(position);
-    //   kb.createCombo(randomWord);
-
-    //   // Update Score
-    //   totalPoints += 100;
-    //   score.setText(totalPoints.toString());
-    // });
   }
 
   update () {
-    // console.log('Update Called!');
-    // console.log('kb current= ' + kb.current);
     if (jumpingAnimation && character.y >= 285) {
       character.y -= 5;
       character.play('jump');
@@ -243,32 +227,6 @@ class gameScene extends Phaser.Scene {
       platformThreeMid.y = -215;
       platformThreeRight.y = -215;
     }
-  }
-
-  // This will update the score based.
-  updateScore () {
-
-  }
-
-  // This will move the platform down, and loop it around. Make it appear like the sprite is moving.
-  nextWord () {
-
-  }
-
-  checkWord () {
-    // console.log('Executing checkWord');
-    // if (currentInput === currentRandomWord) {
-    //   jumpingAnimation = true;
-    //   // removeTilesForWord();
-    //   currentInput = '';
-    //   currentCharIndex = 0;
-    //   // get new word
-    //   randomWord = getRandomWord();
-    //   text.setText(randomWord);
-    //   position = 400 - randomWord.length * 7;
-    //   text.setX(position);
-    //   // currentInput = '';
-    // }
   }
 }
 
