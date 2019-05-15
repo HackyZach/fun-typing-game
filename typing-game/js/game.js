@@ -70,9 +70,10 @@ class startScene extends Phaser.Scene {
 }
 
 // var character, jumpingAnimation, platformOne, platformTwo;
-var character, jumpingAnimation, platformOneLeft, platformOneMid, platformOneRight,
-  platformTwoLeft, platformTwoMid, platformTwoRight,
-  platformThreeLeft, platformThreeMid, platformThreeRight;
+var character; var jumpingAnimation; var platformOneLeft; var platformOneMid; var platformOneRight;
+var platformTwoLeft; var platformTwoMid; var platformTwoRight;
+var platformThreeLeft; var platformThreeMid; var platformThreeRight;
+var kb; var randomwordArr = [];
 class gameScene extends Phaser.Scene {
   preload () {
     // Hearts:
@@ -102,16 +103,14 @@ class gameScene extends Phaser.Scene {
     this.anims.create({
       key: 'jump',
       frames: [
-        { key: 'character' },
-        { key: 'charJump' }
+        { key: 'charJump' },
+        { key: 'character' }
       ],
-      duration: 5000,
-      yoyo: true
-      // frameRate: ,
-      // repeat:
+      duration: 100
     });
     character = this.add.sprite(400, 550, 'character');
-    character.play('jump');
+    character.depth = 1; // brings sprite to front of all objects
+    // character.play('jump');
 
     // Create Platform:
     // let platformLeft = this.add.image(350,400,'platformLeft');
@@ -165,7 +164,7 @@ class gameScene extends Phaser.Scene {
     this.add.image(150, 50, 'fullHeart');
     let health = 3;
 
-    let style = {
+    var style = {
       fontFamily: 'Roboto Condensed',
       fontSize: '32px'
     };
@@ -186,12 +185,12 @@ class gameScene extends Phaser.Scene {
     };
 
     // Display Word
-    let randomWord = getRandomWord();
-    let position = 400 - randomWord.length * 7;
+    var randomWord = getRandomWord();
+    var position = 400 - randomWord.length * 7;
     let text = this.add.text(position, 300, randomWord, style);
 
     // Keyboard combo input.
-    let kb = this.input.keyboard;
+    kb = this.input.keyboard;
     kb.createCombo(randomWord);
 
     // When the user correctly types the word
@@ -214,8 +213,10 @@ class gameScene extends Phaser.Scene {
 
   update () {
     // console.log('Update Called!');
+    // console.log('kb current= ' + kb.current);
     if (jumpingAnimation && character.y >= 285) {
       character.y -= 5;
+      character.play('jump');
     } else if (character.y <= 550) {
       jumpingAnimation = false;
       platformOneLeft.y += 5;
@@ -230,17 +231,17 @@ class gameScene extends Phaser.Scene {
       character.y += 5;
     }
     if (platformOneLeft.y > 600) {
-        platformOneLeft.y = -215;
+      platformOneLeft.y = -215;
       platformOneMid.y = -215;
       platformOneRight.y = -215;
     } else if (platformTwoLeft.y > 600) {
-        platformTwoLeft.y = -215;
-        platformTwoMid.y = -215;
-        platformTwoRight.y = -215;
+      platformTwoLeft.y = -215;
+      platformTwoMid.y = -215;
+      platformTwoRight.y = -215;
     } else if (platformThreeLeft.y > 600) {
-        platformThreeLeft.y = -215;
-        platformThreeMid.y = -215;
-        platformThreeRight.y = -215;
+      platformThreeLeft.y = -215;
+      platformThreeMid.y = -215;
+      platformThreeRight.y = -215;
     }
   }
 
