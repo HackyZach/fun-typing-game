@@ -5,6 +5,10 @@
 // https://labs.phaser.io/edit.html?src=src\scenes\add%20scene%20from%20another%20scene.js
 
 // console.log(dictionary[Math.floor(dictionary.length * Math.random())].word);
+let acceptableKeys = [
+  'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+  'A', 'B', 'C', 'D', 'E', 'F', 'G,', 'H', 'I,', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
+];
 let getRandomWord = () => {
   randomIndex = Math.floor(dictionary.length * Math.random());
   return dictionary[randomIndex].word;
@@ -38,9 +42,7 @@ class startScene extends Phaser.Scene {
     this.add.image(400, 300, 'sky');
     let char = this.add.image(400, 550, 'character');
 
-    // this.add.text(550,25, 'Score: ', {fontFamily: '"Roboto Condensed', fontSize: '32px'});
-    // this.add.text(650,25,'0', {fontFamily: '"Roboto Condensed', fontSize: '32px'});
-    let music = this.sound.add('seinfeld');
+    let music = this.sound.add('seinfeld', true); // true = loop for Phaser 3?
     music.play();
 
     let titleText = this.add.text(200, 200, 'Typing Jumper', { fontFamily: '"Roboto Condensed"', fontSize: '64px' });
@@ -53,27 +55,16 @@ class startScene extends Phaser.Scene {
       char.setVisible(false);
       music.stop();
     });
-
-    // Sample Code:
-    // var particles = this.add.particles('red');
-    // var emitter = particles.createEmitter({
-    //     speed: 100,
-    //     scale: { start: 1, end: 0 },
-    //     blendMode: 'ADD'
-    // });
-    // var logo = this.physics.add.image(400, 100, 'logo');
-    // logo.setVelocity(100, 200);
-    // logo.setBounce(1, 1);
-    // logo.setCollideWorldBounds(true);
-    // emitter.startFollow(logo);
   }
 }
 
-// var character, jumpingAnimation, platformOne, platformTwo;
 var character; var jumpingAnimation; var platformOneLeft; var platformOneMid; var platformOneRight;
 var platformTwoLeft; var platformTwoMid; var platformTwoRight;
 var platformThreeLeft; var platformThreeMid; var platformThreeRight;
 var kb; var randomwordArr = [];
+var currentRandomWord;
+var currentInput = '';
+var currentCharIndex = 0;
 class gameScene extends Phaser.Scene {
   preload () {
     // Hearts:
@@ -97,7 +88,7 @@ class gameScene extends Phaser.Scene {
 
   create () {
     // Music:
-    let music = this.sound.play('robot');
+    let music = this.sound.play('robot', true);
 
     // Character:
     this.anims.create({
@@ -110,33 +101,7 @@ class gameScene extends Phaser.Scene {
     });
     character = this.add.sprite(400, 550, 'character');
     character.depth = 1; // brings sprite to front of all objects
-    // character.play('jump');
 
-    // Create Platform:
-    // let platformLeft = this.add.image(350,400,'platformLeft');
-    // let platformCenter = this.add.image(400,400,'platformCenter');
-    // let platformRight = this.add.image(450,400,'platformRight');
-    // https://rexrainbow.github.io/phaser3-rex-notes/docs/site/group/#group-actions
-    // platformOne = this.add.group(
-    //   {
-    //     key: 'platformOne',
-    //     setXY:
-    //             {
-    //               x: 340,
-    //               y: 383
-    //             }
-    //   }
-    // );
-    // platformTwo = this.add.group(
-    //   {
-    //     key: 'platformTwo',
-    //     setXY:
-    //         {
-    //           x: 0,
-    //           y: 0
-    //         }
-    //   }
-    // );
     platformOneLeft = this.add.image(350, 360, 'platformLeft');
     platformOneMid = this.add.image(400, 360, 'platformCenter');
     platformOneRight = this.add.image(450, 360, 'platformRight');
@@ -146,20 +111,10 @@ class gameScene extends Phaser.Scene {
     platformThreeLeft = this.add.image(350, -190, 'platformLeft');
     platformThreeMid = this.add.image(400, -190, 'platformCenter');
     platformThreeRight = this.add.image(450, -190, 'platformRight');
-    // platformOne.create(350, 400, 'platformLeft');
-    // platformOne.create(400, 400, 'platformCenter');
-    // platformOne.create(450, 400, 'platformRight');
-    // platformTwo.create(350, 0, 'platformLeft');
-    // platformTwo.create(400, 0, 'platformCenter');
-    // platformTwo.create(450, 0, 'platformRight');
-
-    // platformOne.addMultiple([platformLeft,platformCenter,platformRight]);
-    // console.log(platformOne);
-    // console.log(platformOne.getLength());
 
     // Health:
     // TODO: Make these into sprites..?
-    this.add.image(50, 50, 'fullHeart');
+    var testHeart = this.add.image(50, 50, 'fullHeart');
     this.add.image(100, 50, 'fullHeart');
     this.add.image(150, 50, 'fullHeart');
     let health = 3;
@@ -191,24 +146,69 @@ class gameScene extends Phaser.Scene {
 
     // Keyboard combo input.
     kb = this.input.keyboard;
-    kb.createCombo(randomWord);
+    // kb.createCombo(randomWord);
 
-    // When the user correctly types the word
-    this.input.keyboard.on('keycombomatch', function (event) {
-      console.log('Correct Input: ' + randomWord);
-      // Char animation and movement
-      jumpingAnimation = true;
-      // Replace Word
-      randomWord = getRandomWord();
-      text.setText(randomWord);
-      position = 400 - randomWord.length * 7;
-      text.setX(position);
-      kb.createCombo(randomWord);
 
-      // Update Score
-      totalPoints += 100;
-      score.setText(totalPoints.toString());
+    this.input.keyboard.on('keydown', function (event) {
+      console.log('testing= ' + event.key);
+      let currentInputChar = event.key;
+      // checkLetter, outputs green/red
+      if (currentInputChar === 'Backspace') {
+        currentInput = currentInput.slice(0, currentInput.length - 1);
+        if (currentCharIndex > 0) {
+          currentCharIndex--;
+        }
+      } else {
+        if (acceptableKeys.includes(currentInputChar)) { // user did not type anything weird e.g. shift
+          if (currentInputChar === randomWord[currentCharIndex]) { // user typed correct letter
+            currentInput += currentInputChar;
+            currentCharIndex++;
+          } else { // user typed wrong letter, so reset word
+            currentInput = '';
+            currentCharIndex = 0;
+            randomWord = getRandomWord();
+            text.setText(randomWord);
+            position = 400 - randomWord.length * 7;
+            text.setX(position);
+            testHeart.setVisible(false);
+          }
+        }
+      }
+
+      if (currentInput === randomWord) {
+        jumpingAnimation = true;
+        // removeTilesForWord();
+        currentInput = '';
+        currentCharIndex = 0;
+        // get new word
+        randomWord = getRandomWord();
+        text.setText(randomWord);
+        position = 400 - randomWord.length * 7;
+        text.setX(position);
+        // currentInput = '';
+
+        totalPoints += 50;
+        score.setText(totalPoints.toString());
+      }
+      console.log('currentInput=' + currentInput);
+      console.log('currentCharIndex=' + currentCharIndex);
     });
+    // When the user correctly types the word
+    // this.input.keyboard.on('keycombomatch', function (event) {
+    //   console.log('Correct Input: ' + randomWord);
+    //   // Char animation and movement
+    //   jumpingAnimation = true;
+    //   // Replace Word
+    //   randomWord = getRandomWord();
+    //   text.setText(randomWord);
+    //   position = 400 - randomWord.length * 7;
+    //   text.setX(position);
+    //   kb.createCombo(randomWord);
+
+    //   // Update Score
+    //   totalPoints += 100;
+    //   score.setText(totalPoints.toString());
+    // });
   }
 
   update () {
@@ -253,6 +253,22 @@ class gameScene extends Phaser.Scene {
   // This will move the platform down, and loop it around. Make it appear like the sprite is moving.
   nextWord () {
 
+  }
+
+  checkWord () {
+    // console.log('Executing checkWord');
+    // if (currentInput === currentRandomWord) {
+    //   jumpingAnimation = true;
+    //   // removeTilesForWord();
+    //   currentInput = '';
+    //   currentCharIndex = 0;
+    //   // get new word
+    //   randomWord = getRandomWord();
+    //   text.setText(randomWord);
+    //   position = 400 - randomWord.length * 7;
+    //   text.setX(position);
+    //   // currentInput = '';
+    // }
   }
 }
 
