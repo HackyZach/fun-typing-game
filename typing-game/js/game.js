@@ -153,6 +153,8 @@ class gameScene extends Phaser.Scene {
     kb = this.input.keyboard;
     // kb.createCombo(randomWord);
 
+    //
+    let forgive = false;
 
     this.input.keyboard.on('keydown', function (event) {
       console.log('testing= ' + event.key);
@@ -182,7 +184,12 @@ class gameScene extends Phaser.Scene {
             // text.setText(randomWord);
             // position = 400 - randomWord.length * 7;
             // text.setX(position);
-            if (health >= 0) { hearts[health--].setVisible(false); }
+            if (!forgive) {
+              if (health >= 0) { 
+                hearts[health--].setVisible(false); 
+              } 
+              forgive = true;
+            }
           }
         }
       }
@@ -199,6 +206,7 @@ class gameScene extends Phaser.Scene {
           console.log("Is an invalid word!");
           randomWord = getRandomWord();
         }
+        forgive = false;
 
         text.setText(randomWord);
         position = 400 - randomWord.length * 7;
