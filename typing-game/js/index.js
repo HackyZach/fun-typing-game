@@ -37,6 +37,6 @@ function myFunction () {
       currentRandomWord = word;
       makeTilesForWord();
     }
-    console.log('End of onreadystatechange');
+    console.logit('End of onreadystatechange');
   };
 }

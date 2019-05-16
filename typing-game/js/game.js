@@ -141,6 +141,11 @@ class gameScene extends Phaser.Scene {
 
     // Display Word
     var randomWord = getRandomWord();
+    while (randomWord.indexOf(' ') >= 0 || randomWord.indexOf("'") >= 0 || randomWord.indexOf("-") >= 0) {
+      console.log("Is an invalid word!");
+      randomWord = getRandomWord();
+    }
+
     var position = 400 - randomWord.length * 7;
     let text = this.add.text(position, 300, randomWord, style);
 
@@ -148,6 +153,8 @@ class gameScene extends Phaser.Scene {
     kb = this.input.keyboard;
     // kb.createCombo(randomWord);
 
+    //
+    let forgive = false;
 
     this.input.keyboard.on('keydown', function (event) {
       console.log('testing= ' + event.key);
@@ -167,11 +174,22 @@ class gameScene extends Phaser.Scene {
             character.play('hurt');
             currentInput = '';
             currentCharIndex = 0;
-            randomWord = getRandomWord();
-            text.setText(randomWord);
-            position = 400 - randomWord.length * 7;
-            text.setX(position);
-            if (health >= 0) { hearts[health--].setVisible(false); }
+            // randomWord = getRandomWord();
+
+            // while (randomWord.indexOf(' ') >= 0 || randomWord.indexOf("'") >= 0 || randomWord.indexOf("-") >= 0) {
+            //   console.log("Is an invalid word!");
+            //   randomWord = getRandomWord();
+            // }
+
+            // text.setText(randomWord);
+            // position = 400 - randomWord.length * 7;
+            // text.setX(position);
+            if (!forgive) {
+              if (health >= 0) { 
+                hearts[health--].setVisible(false); 
+              } 
+              forgive = true;
+            }
           }
         }
       }
@@ -184,6 +202,12 @@ class gameScene extends Phaser.Scene {
         currentCharIndex = 0;
         // get new word
         randomWord = getRandomWord();
+        while (randomWord.indexOf(' ') >= 0 || randomWord.indexOf("'") >= 0 || randomWord.indexOf("-") >= 0) {
+          console.log("Is an invalid word!");
+          randomWord = getRandomWord();
+        }
+        forgive = false;
+
         text.setText(randomWord);
         position = 400 - randomWord.length * 7;
         text.setX(position);
@@ -192,8 +216,8 @@ class gameScene extends Phaser.Scene {
         totalPoints += 50;
         score.setText(totalPoints.toString());
       }
-      console.log('currentInput=' + currentInput);
-      console.log('currentCharIndex=' + currentCharIndex);
+      // console.log('currentInput=' + currentInput);
+      // console.log('currentCharIndex=' + currentCharIndex);
     });
   }
 
