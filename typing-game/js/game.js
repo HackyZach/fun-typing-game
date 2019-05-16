@@ -53,7 +53,7 @@ var platformThreeLeft; var platformThreeMid; var platformThreeRight;
 var kb; var randomwordArr = [];
 var currentRandomWord;
 var currentInput = '';
-var currentCharIndex = 0;    
+var currentCharIndex = 0;
 var totalPoints = 0;
 
 class gameScene extends Phaser.Scene {
@@ -96,7 +96,7 @@ class gameScene extends Phaser.Scene {
     });
     this.anims.create({
       key: 'hurt',
-      frames: [ 
+      frames: [
         { key: 'charHurt' },
         { key: 'character' }
       ],
@@ -119,7 +119,7 @@ class gameScene extends Phaser.Scene {
     var heart1 = this.add.image(50, 50, 'fullHeart');
     var heart2 = this.add.image(100, 50, 'fullHeart');
     var heart3 = this.add.image(150, 50, 'fullHeart');
-    var hearts =  [ heart1, heart2, heart3 ];
+    var hearts = [ heart1, heart2, heart3 ];
     var health = hearts.length;
 
     var style = {
@@ -143,8 +143,8 @@ class gameScene extends Phaser.Scene {
 
     // Display Word
     var randomWord = getRandomWord();
-    while (randomWord.indexOf(' ') >= 0 || randomWord.indexOf("'") >= 0 || randomWord.indexOf("-") >= 0) {
-      console.log("Is an invalid word!");
+    while (randomWord.indexOf(' ') >= 0 || randomWord.indexOf("'") >= 0 || randomWord.indexOf('-') >= 0) {
+      console.log('Is an invalid word!');
       randomWord = getRandomWord();
     }
 
@@ -189,7 +189,7 @@ class gameScene extends Phaser.Scene {
             if (!forgive) {
               if (health > 0) {
                 hearts[--health].setVisible(false);
-              } 
+              }
               else {
                 console.log('test');
                 // debugger;
@@ -209,8 +209,8 @@ class gameScene extends Phaser.Scene {
         currentCharIndex = 0;
         // get new word
         randomWord = getRandomWord();
-        while (randomWord.indexOf(' ') >= 0 || randomWord.indexOf("'") >= 0 || randomWord.indexOf("-") >= 0) {
-          console.log("Is an invalid word!");
+        while (randomWord.indexOf(' ') >= 0 || randomWord.indexOf("'") >= 0 || randomWord.indexOf('-') >= 0) {
+          console.log('Is an invalid word!');
           randomWord = getRandomWord();
         }
         forgive = false;
@@ -305,7 +305,7 @@ let phaserconfig = {
       debug: true
     }
   },
-  scene: [ startScene, gameScene, gameOverScene],
+  scene: [startScene, gameScene, gameOverScene],
   scale: {
     parent: 'phaser',
     mode: Phaser.Scale.CENTER_BOTH,
