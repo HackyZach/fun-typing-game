@@ -186,7 +186,14 @@ class gameScene extends Phaser.Scene {
     };
 
     // Display Word
-    let randomWord = getRandomWord();
+    let randomWord = "'neath";
+
+    //Work around for words that don't work with keycombo.
+    while (randomWord.indexOf(' ') >= 0 || randomWord.indexOf("'") >= 0 || randomWord.indexOf("-") >= 0) {
+      console.log("Is an invalid word!");
+      randomWord = getRandomWord();
+    }
+
     let position = 400 - randomWord.length * 7;
     let text = this.add.text(position, 300, randomWord, style);
 
@@ -201,6 +208,10 @@ class gameScene extends Phaser.Scene {
       jumpingAnimation = true;
       // Replace Word
       randomWord = getRandomWord();
+      while (randomWord.indexOf(' ') >= 0 || randomWord.indexOf("'") >= 0 || randomWord.indexOf("-") >= 0) {
+        console.log("Is an invalid word!");
+        randomWord = getRandomWord();
+      }
       text.setText(randomWord);
       position = 400 - randomWord.length * 7;
       text.setX(position);
