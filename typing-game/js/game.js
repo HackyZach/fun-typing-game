@@ -172,16 +172,16 @@ class gameScene extends Phaser.Scene {
             character.play('hurt');
             currentInput = '';
             currentCharIndex = 0;
-            randomWord = getRandomWord();
+            // randomWord = getRandomWord();
 
-            while (randomWord.indexOf(' ') >= 0 || randomWord.indexOf("'") >= 0 || randomWord.indexOf("-") >= 0) {
-              console.log("Is an invalid word!");
-              randomWord = getRandomWord();
-            }
+            // while (randomWord.indexOf(' ') >= 0 || randomWord.indexOf("'") >= 0 || randomWord.indexOf("-") >= 0) {
+            //   console.log("Is an invalid word!");
+            //   randomWord = getRandomWord();
+            // }
 
-            text.setText(randomWord);
-            position = 400 - randomWord.length * 7;
-            text.setX(position);
+            // text.setText(randomWord);
+            // position = 400 - randomWord.length * 7;
+            // text.setX(position);
             if (health >= 0) { hearts[health--].setVisible(false); }
           }
         }
@@ -199,7 +199,7 @@ class gameScene extends Phaser.Scene {
           console.log("Is an invalid word!");
           randomWord = getRandomWord();
         }
-        
+
         text.setText(randomWord);
         position = 400 - randomWord.length * 7;
         text.setX(position);
