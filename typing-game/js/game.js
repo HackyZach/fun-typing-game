@@ -53,7 +53,9 @@ var platformThreeLeft; var platformThreeMid; var platformThreeRight;
 var kb; var randomwordArr = [];
 var currentRandomWord;
 var currentInput = '';
-var currentCharIndex = 0;
+var currentCharIndex = 0;    
+var totalPoints = 0;
+
 class gameScene extends Phaser.Scene {
   constructor () {
     super({ key: 'game' });
@@ -129,7 +131,6 @@ class gameScene extends Phaser.Scene {
     // Updating Score: https://phaser.io/tutorials/making-your-first-phaser-3-game/part9
     this.add.text(550, 25, 'Score: ', style);
 
-    let totalPoints = 0;
     let score = this.add.text(650, 25, totalPoints.toString(), style);
 
     // Words:
@@ -284,6 +285,7 @@ class gameOverScene extends Phaser.Scene {
 
     let endText = this.add.text(200, 200, 'THE END', { fontFamily: '"Roboto Condensed"', fontSize: '64px' });
     let tryAgainButton = this.add.text(300, 300, 'Try again?', { fontFamily: '"Roboto Condensed"', fontSize: '32px' }).setInteractive();
+    submit_score(totalPoints);
     tryAgainButton.on('pointerdown', (pointer) => {
       this.scene.start('start');
       // this.manager.game.scene.start('start');
