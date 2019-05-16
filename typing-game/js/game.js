@@ -213,7 +213,8 @@ class gameScene extends Phaser.Scene {
         text.setX(position);
         // currentInput = '';
 
-        totalPoints += 50;
+        totalPoints += 50; // Base score per word
+        totalPoints += randomWord.length * 10; // Improves score based on number of characters.
         score.setText(totalPoints.toString());
       }
       // console.log('currentInput=' + currentInput);
