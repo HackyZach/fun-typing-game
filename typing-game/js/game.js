@@ -16,7 +16,8 @@ let getRandomWord = () => {
 
 class startScene extends Phaser.Scene {
   constructor () {
-    super({ key: 'start', active: true });
+    // super({ key: 'start', active: true });
+    super({ key: 'start' });
   }
 
   preload () {
@@ -41,11 +42,7 @@ class startScene extends Phaser.Scene {
     let startButton = this.add.text(300, 300, 'Press Start!', { fontFamily: '"Roboto Condensed"', fontSize: '32px' }).setInteractive();
     startButton.on('pointerdown', (pointer) => {
       console.log(pointer);
-      this.scene.add('game', gameScene, true, { x: 400, y: 300 });
-      titleText.setVisible(false);
-      startButton.setVisible(false);
-      char.setVisible(false);
-      music.stop();
+      this.scene.start('game');
     });
   }
 }
@@ -58,6 +55,9 @@ var currentRandomWord;
 var currentInput = '';
 var currentCharIndex = 0;
 class gameScene extends Phaser.Scene {
+  constructor () {
+    super({ key: 'game' });
+  }
   preload () {
     // Hearts:
     this.load.image('fullHeart', 'assets/images/HUD/hud_heartFULL.png');
@@ -79,6 +79,7 @@ class gameScene extends Phaser.Scene {
   }
 
   create () {
+    this.add.image(400, 300, 'sky');
     // Music:
     let music = this.sound.play('robot', true);
 
@@ -117,7 +118,7 @@ class gameScene extends Phaser.Scene {
     var heart2 = this.add.image(100, 50, 'fullHeart');
     var heart3 = this.add.image(150, 50, 'fullHeart');
     var hearts =  [ heart1, heart2, heart3 ];
-    var health = hearts.length - 1;
+    var health = hearts.length;
 
     var style = {
       fontFamily: 'Roboto Condensed',
@@ -185,9 +186,14 @@ class gameScene extends Phaser.Scene {
             // position = 400 - randomWord.length * 7;
             // text.setX(position);
             if (!forgive) {
-              if (health >= 0) { 
-                hearts[health--].setVisible(false); 
+              if (health > 0) {
+                hearts[--health].setVisible(false);
               } 
+              else {
+                console.log('test');
+                // debugger;
+                this.game.scene.start('over');
+              }
               forgive = true;
             }
           }
@@ -259,6 +265,33 @@ class gameOverScene extends Phaser.Scene {
   constructor () {
     super({ key: 'over' });
   }
+  preload () {
+    // Background:
+    this.load.image('sky', 'assets/sky.png');
+
+    // Character:
+    this.load.image('character', 'assets/images/Player/p3_front.png');
+
+    // Music:
+    this.load.audio('seinfeld', 'assets/sound/Seinfeld.mp3');
+  }
+  create () {
+    this.add.image(400, 300, 'sky');
+    let char = this.add.image(400, 550, 'character');
+
+    let music = this.sound.add('seinfeld', true); // true = loop for Phaser 3?
+    music.play();
+
+    let endText = this.add.text(200, 200, 'THE END', { fontFamily: '"Roboto Condensed"', fontSize: '64px' });
+    let tryAgainButton = this.add.text(300, 300, 'Try again?', { fontFamily: '"Roboto Condensed"', fontSize: '32px' }).setInteractive();
+    tryAgainButton.on('pointerdown', (pointer) => {
+      this.scene.start('start');
+      // this.manager.game.scene.start('start');
+      // this.scene.manager.scenes[1].start('start');
+      // this.scene.manager.start('start');
+      console.log('clicked');
+    });
+  }
 }
 
 let phaserconfig = {
@@ -280,3 +313,6 @@ let phaserconfig = {
 };
 
 let game = new Phaser.Game(phaserconfig);
+this.scene.add('start', startScene, false, { x: 400, y: 300 });
+this.scene.add('game', gameScene, false, { x: 400, y: 300 });
+this.scene.add('over', gameOverScene, false, { x: 400, y: 300 });
